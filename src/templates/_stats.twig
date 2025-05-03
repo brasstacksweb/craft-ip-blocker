@@ -1,0 +1,26 @@
+{% set links = [
+	{ url: url('craft-ip-blocker'), label: 'Blocks' },
+	{ url: url('craft-ip-blocker/attempts'), label: 'Failed Attempts' },
+] %}
+
+{% extends '_layouts/cp' %}
+
+{% block header %}
+	<h1>Security Stats</h1>
+{% endblock %}
+
+{% block sidebar %}
+	<nav>
+		<ul>
+			{% for l in links %}
+				<li>
+					<a
+						href="{{ l.url }}"
+						class="{% if l.url == craft.app.request.absoluteUrl %}sel{% endif %}">
+						{{ l.label }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</nav>
+{% endblock %}

@@ -1,0 +1,38 @@
+{# @var settings \brasstacksweb\craftipblocker\models\Settings #}
+
+{% set cols = {
+	pattern: { type: 'singleline', heading: 'Pattern', placeholder: 'Invalid asset handle', width: '40%' },
+	maxAttempts: { type: 'number', heading: 'Max Attempts', placeholder: '5', width: '20%' },
+	blockTime: { type: 'number', heading: 'Block Time', placeholder: '3600', width: '20%' },
+	detectionWindow: { type: 'number', heading: 'Detection Window', placeholder: '300', width: '20%' },
+} %}
+{% set rows = settings.conditions|map(c => {
+	pattern: c.pattern,
+	maxAttempts: c.maxAttempts,
+	blockTime: c.blockTime,
+	detectionWindow: c.detectionWindow,
+}) %}
+
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+	<input type="hidden" name="action" value="">
+	{{ actionInput("craft-ip-blocker/settings/save") }}
+	{{ redirectInput("settings/plugins/craft-ip-blocker") }}
+
+	{{ forms.editableTableField({
+		label: 'Conditions',
+		id: 'conditions',
+		name: 'conditions',
+		cols: cols,
+		rows: rows,
+		allowAdd: true,
+		allowDelete: true,
+		allowReorder: true,
+		defaultValues: {
+			maxAttempts: 5,
+			blockTime: 3600,
+			detectionWindow: 300,
+		},
+	}) }}
+{% endblock %}

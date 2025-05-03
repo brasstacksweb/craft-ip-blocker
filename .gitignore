@@ -1,0 +1,8 @@
+*.DS_Store
+*.idea/*
+*.php-cs-fixer.cache
+*.log
+*Thumbs.db
+.env
+/node_modules
+/vendor

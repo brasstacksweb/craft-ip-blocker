@@ -1,0 +1,64 @@
+{# @var activeBlocks \brasstacksweb\craftipblocker\records\Block[] #}
+{# @var expiredBlocks \brasstacksweb\craftipblocker\records\Block[] #}
+
+{% extends 'craft-ip-blocker/_stats' %}
+
+{% set title = 'IP Blocker Stats - Blocks' %}
+
+{% block content %}
+	<section class="readable">
+		<h2>Active Blocks</h2>
+		{% if activeBlocks is empty %}
+			<p>No active blocks found.</p>
+		{% else %}
+			<div class="tableview">
+				<table class="data fullwidth">
+					<thead>
+						<tr>
+							<th>IP</th>
+							<th>Reason</th>
+							<th>Time</th>
+							<th>Expires</ht>
+						</tr>
+					</thead>
+					<tbody>
+						{% for b in activeBlocks %}
+							<tr>
+								<td>{{ b.ip }}</td>
+								<td>{{ b.reason }}</td>
+								<td>{{ b.dateCreated|date('Y-m-d H:i:s') }}</td>
+								<td>{{ b.expires|date('Y-m-d H:i:s') }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+		<hr />
+		<h2>Expired Blocks</h2>
+		{% if expiredBlocks is empty %}
+			<p>No expired blocks found.</p>
+		{% else %}
+			<div class="tableview">
+				<table class="data fullwidth">
+					<thead>
+						<tr>
+							<th>IP</th>
+							<th>Reason</th>
+							<th>Expired</ht>
+						</tr>
+					</thead>
+					<tbody>
+						{% for b in expiredBlocks %}
+							<tr>
+								<td>{{ b.ip }}</td>
+								<td>{{ b.reason }}</td>
+								<td>{{ b.expires|date('Y-m-d H:i:s') }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</section>
+{% endblock %}
