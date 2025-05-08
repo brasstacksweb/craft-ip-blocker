@@ -3,8 +3,8 @@
 namespace brasstacksweb\craftipblocker;
 
 use brasstacksweb\craftipblocker\models\Settings;
+use brasstacksweb\craftipblocker\records\Attempt;
 use brasstacksweb\craftipblocker\services\Blocker;
-use brasstacksweb\craftipblocker\services\Conditions;
 use craft\base\Model;
 use craft\base\Plugin;
 use craft\events\ExceptionEvent;
@@ -36,7 +36,6 @@ class IPBlocker extends Plugin
         return [
             'components' => [
                 'blocker' => Blocker::class,
-                'conditions' => Conditions::class,
             ],
         ];
     }
@@ -87,14 +86,13 @@ class IPBlocker extends Plugin
             }
         );
 
-        // TODO
-        // Event::on(
-        //     Gc::class,
-        //     Gc::EVENT_RUN,
-        //     function () {
-        //         \Craft::$app->gc->hardDelete('{{%mytablename}}');
-        //     }
-        // );
+        Event::on(
+            Gc::class,
+            Gc::EVENT_RUN,
+            function () {
+                \Craft::$app->gc->hardDelete(Attempt::tableName());
+            }
+        );
 
         // Any code that creates an element query or loads Twig should be deferred until
         // after Craft is fully initialized, to avoid conflicts with other plugins/modules

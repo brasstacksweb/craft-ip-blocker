@@ -13,7 +13,6 @@ class Install extends Migration
     {
         if ($this->createTables()) {
             $this->createIndexes();
-            // $this->addForeignKeys();
 
             // Refresh the db schema caches
             \Craft::$app->db->schema->refresh();
@@ -62,38 +61,7 @@ class Install extends Migration
 
     protected function createIndexes(): void
     {
-        $this->createIndex(
-            null,
-            '{{%ipblocker_attempts}}',
-            'pattern',
-            false
-        );
-
-        $this->createIndex(
-            null,
-            '{{%ipblocker_attempts}}',
-            'ip',
-            false
-        );
-
-        $this->createIndex(
-            null,
-            '{{%ipblocker_blocks}}',
-            'ip',
-            false
-        );
+        $this->createIndex('count_attempts', '{{%ipblocker_attempts}}', ['ip', 'pattern', 'dateCreated'], false);
+        $this->createIndex('block_expired', '{{%ipblocker_blocks}}', ['ip', 'expires'], false);
     }
-
-    // protected function addForeignKeys(): void
-    // {
-    //     $this->addForeignKey(
-    //         null,
-    //         '{{%ipblocker_attempts}}',
-    //         'conditionId',
-    //         '{{%ipblocker_conditions}}',
-    //         'id',
-    //         'CASCADE',
-    //         null
-    //     );
-    // }
 }
