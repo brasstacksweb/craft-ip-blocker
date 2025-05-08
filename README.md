@@ -33,7 +33,7 @@ composer require brasstacksweb/craft-ip-blocker
 
 IP Blocker supports adding one or many conditions to determine if request resulting in an [HTTP exception](https://www.yiiframework.com/doc/api/2.0/yii-web-httpexception) will be recorded and if the requesters I.P. address will be blocked.
 
-![Settings](../docs/images/settings.png)
+![Settings screenshot](/docs/images/settings.png "Settings Dashboard")
 
 ### Conditions
 
@@ -48,6 +48,6 @@ A condition can be added in the plugin settings and must consist of the followin
 
 Statistics for failed attempts against a condition and I.P. addresses that have been blocked are visible in the IP Blocker section of the CMS.
 
-![Attempts](../docs/images/attempts.png)
+![Attempts screenshot](/docs/images/attempts.png "Attempt Statistics")
 
-![Blocks](../docs/images/blocks.png)
+![Blocks screenshot](/docs/images/blocks.png "Block Statistics")
