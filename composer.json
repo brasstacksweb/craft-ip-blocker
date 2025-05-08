@@ -1,47 +1,54 @@
 {
-    "name": "brasstacksweb/craft-ip-blocker",
-    "description": "IP address blocker for Craft CMS applications to bock traffic from malicious sources. ",
-    "type": "craft-plugin",
-    "license": "proprietary",
-    "support": {
-        "email": "help@brasstacksweb.com",
-        "issues": "https://github.com/brasstacksweb/craft-ip-blocker/issues?state=open",
-        "source": "https://github.com/brasstacksweb/craft-ip-blocker",
-        "docs": "https://github.com/brasstacksweb/craft-ip-blocker",
-        "rss": "https://github.com/brasstacksweb/craft-ip-blocker/releases.atom"
-    },
-    "require": {
-        "php": ">=8.0.2",
-        "craftcms/cms": "^4.14.0"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.75"
-    },
-    "autoload": {
-        "psr-4": {
-            "brasstacksweb\\craftipblocker\\": "src/"
-        }
-    },
-    "extra": {
-        "handle": "craft-ip-blocker",
-        "name": "IP Blocker",
-        "developer": "Brass Tacks Web",
-        "documentationUrl": "https://github.com/brasstacksweb/craft-ip-blocker",
-        "class": "brasstacksweb\\craftipblocker\\IPBlocker"
-    },
-    "scripts": {
-        "check-cs": "ecs check --ansi",
-        "fix-cs": "ecs check --ansi --fix",
-        "phpstan": "phpstan --memory-limit=1G"
-    },
-    "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "8.0.2"
-        },
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true,
-            "craftcms/plugin-installer": true
-        }
-    }
+	"name": "brasstacksweb/craft-ip-blocker",
+	"description": "IP address blocker for Craft CMS applications to bock traffic from malicious sources. ",
+	"type": "craft-plugin",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Brass Tacks Web",
+			"homepage": "https://www.brasstacksweb.com"
+		}
+	],
+	"support": {
+		"email": "help@brasstacksweb.com",
+		"issues": "https://github.com/brasstacksweb/craft-ip-blocker/issues?state=open",
+		"source": "https://github.com/brasstacksweb/craft-ip-blocker",
+		"docs": "https://github.com/brasstacksweb/craft-ip-blocker",
+		"rss": "https://github.com/brasstacksweb/craft-ip-blocker/releases.atom"
+	},
+	"require": {
+		"php": ">=8.0.2",
+		"craftcms/cms": "^4.0"
+	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.75"
+	},
+	"autoload": {
+		"psr-4": {
+			"brasstacksweb\\craftipblocker\\": "src/"
+		}
+	},
+	"extra": {
+		"handle": "craft-ip-blocker",
+		"name": "IP Blocker",
+		"developer": "Brass Tacks Web",
+		"developerUrl": "https://www.brasstacksweb.com",
+		"documentationUrl": "https://github.com/brasstacksweb/craft-ip-blocker",
+		"class": "brasstacksweb\\craftipblocker\\IPBlocker"
+	},
+	"scripts": {
+		"check-cs": "ecs check --ansi",
+		"fix-cs": "ecs check --ansi --fix",
+		"phpstan": "phpstan --memory-limit=1G"
+	},
+	"config": {
+		"sort-packages": true,
+		"platform": {
+			"php": "8.0.2"
+		},
+		"allow-plugins": {
+			"yiisoft/yii2-composer": true,
+			"craftcms/plugin-installer": true
+		}
+	}
 }
