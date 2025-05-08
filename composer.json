@@ -2,7 +2,7 @@
     "name": "brasstacksweb/craft-ip-blocker",
     "description": "IP address blocker for Craft CMS applications to bock traffic from malicious sources. ",
     "type": "craft-plugin",
-    "license": "GPL-3.0",
+    "license": "proprietary",
     "support": {
         "email": "help@brasstacksweb.com",
         "issues": "https://github.com/brasstacksweb/craft-ip-blocker/issues?state=open",

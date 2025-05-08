@@ -17,17 +17,14 @@ class StatsController extends Controller
     public function actionAttempts(): Response
     {
         return $this->renderTemplate('craft-ip-blocker/_attempts', [
-            'attempts' => IPBlocker::getInstance()->blocker->getAttempts(),
+            'attempts' => IPBlocker::getInstance()->blocker->getAttemptStats(),
         ]);
     }
 
     public function actionBlocks(): Response
     {
-        $now = time();
-
         return $this->renderTemplate('craft-ip-blocker/_blocks', [
-            'activeBlocks' => IPBlocker::getInstance()->blocker->getActiveBlocks($now),
-            'expiredBlocks' => IPBlocker::getInstance()->blocker->getExpiredBlocks($now),
+            'blocks' => IPBlocker::getInstance()->blocker->getBlockStats(),
         ]);
     }
 }

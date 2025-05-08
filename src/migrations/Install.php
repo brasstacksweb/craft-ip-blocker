@@ -41,11 +41,9 @@ class Install extends Migration
             'id' => $this->primaryKey(),
             'pattern' => $this->string()->notNull(),
             'ip' => $this->string()->notNull(),
-            'firstAttempt' => $this->dateTime()->notNull(),
-            'lastAttempt' => $this->dateTime()->notNull(),
-            'count' => $this->integer()->notNull(),
             'dateCreated' => $this->dateTime()->notNull(),
             'dateUpdated' => $this->dateTime()->notNull(),
+            'dateDeleted' => $this->dateTime()->null(),
             'uid' => $this->uid(),
         ]);
 

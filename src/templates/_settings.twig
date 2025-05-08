@@ -1,11 +1,18 @@
 {# @var settings \brasstacksweb\craftipblocker\models\Settings #}
 
-{% set cols = {
-	pattern: { type: 'singleline', heading: 'Pattern', placeholder: 'Invalid asset handle', width: '40%' },
-	maxAttempts: { type: 'number', heading: 'Max Attempts', placeholder: '5', width: '20%' },
-	blockTime: { type: 'number', heading: 'Block Time', placeholder: '3600', width: '20%' },
-	detectionWindow: { type: 'number', heading: 'Detection Window', placeholder: '300', width: '20%' },
-} %}
+{% set condition = create('brasstacksweb\\craftipblocker\\models\\Condition') %}
+{% set cols = {} %}
+{% for name, _ in condition %}
+	{% set cols = cols|merge({
+		(name): {
+			type: condition.getAttributeType(name),
+			heading: condition.getAttributeLabel(name),
+			placeholder: condition.getAttributePlaceholder(name),
+			info: condition.getAttributeHint(name),
+			width: condition.getAttributeWidth(name),
+		},
+	}) %}
+{% endfor %}
 {% set rows = settings.conditions|map(c => {
 	pattern: c.pattern,
 	maxAttempts: c.maxAttempts,
@@ -21,12 +28,13 @@
 	{{ redirectInput("settings/plugins/craft-ip-blocker") }}
 
 	{{ forms.editableTableField({
-		label: 'Conditions',
+		label: 'Block Conditions',
 		id: 'conditions',
 		name: 'conditions',
 		cols: cols,
 		rows: rows,
 		allowAdd: true,
+		addRowLabel: 'Add a Condition',
 		allowDelete: true,
 		allowReorder: true,
 		defaultValues: {

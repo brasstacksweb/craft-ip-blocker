@@ -9,9 +9,11 @@ use craft\base\Model;
 use craft\base\Plugin;
 use craft\events\ExceptionEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\services\Gc;
 use craft\web\ErrorHandler;
 use craft\web\UrlManager;
 use yii\base\Event;
+use yii\web\HttpException;
 
 /**
  * IP Blocker plugin.
@@ -69,20 +71,30 @@ class IPBlocker extends Plugin
             return;
         }
 
-        self::getInstance()->blocker->checkIp($ip, $conditions);
+        $this->blocker->checkIp($ip, $conditions);
 
         Event::on(
             ErrorHandler::class,
             ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION,
             function (ExceptionEvent $event) use ($ip, $conditions) {
-                foreach ($conditions as $c) {
-                    // TODO: Add exeption type check from condition?
-                    if (preg_match('/'.$c->pattern.'/', $event->exception->getMessage())) {
-                        $this->blocker->recordFailedAttempt($ip, $c);
+                if ($event->exception instanceof HttpException && count($conditions) > 0) {
+                    foreach ($conditions as $c) {
+                        if ($this->blocker->matchException($c, $event->exception)) {
+                            $this->blocker->recordFailedAttempt($ip, $c);
+                        }
                     }
                 }
             }
         );
+
+        // TODO
+        // Event::on(
+        //     Gc::class,
+        //     Gc::EVENT_RUN,
+        //     function () {
+        //         \Craft::$app->gc->hardDelete('{{%mytablename}}');
+        //     }
+        // );
 
         // Any code that creates an element query or loads Twig should be deferred until
         // after Craft is fully initialized, to avoid conflicts with other plugins/modules

@@ -1,5 +1,4 @@
-{# @var activeBlocks \brasstacksweb\craftipblocker\records\Block[] #}
-{# @var expiredBlocks \brasstacksweb\craftipblocker\records\Block[] #}
+{# @var blocks \brasstacksweb\craftipblocker\models\BlockStats[] #}
 
 {% extends 'craft-ip-blocker/_stats' %}
 
@@ -7,9 +6,9 @@
 
 {% block content %}
 	<section class="readable">
-		<h2>Active Blocks</h2>
-		{% if activeBlocks is empty %}
-			<p>No active blocks found.</p>
+		<h2>Blocks</h2>
+		{% if blocks is empty %}
+			<p>No blocks found.</p>
 		{% else %}
 			<div class="tableview">
 				<table class="data fullwidth">
@@ -17,43 +16,21 @@
 						<tr>
 							<th>IP</th>
 							<th>Reason</th>
-							<th>Time</th>
+							<th>Count</th>
+							<th>First Blocked</th>
 							<th>Expires</ht>
+							<th>Is Active</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for b in activeBlocks %}
+						{% for b in blocks %}
 							<tr>
 								<td>{{ b.ip }}</td>
 								<td>{{ b.reason }}</td>
-								<td>{{ b.dateCreated|date('Y-m-d H:i:s') }}</td>
+								<td>{{ b.count }}</td>
+								<td>{{ b.firstBlocked|date('Y-m-d H:i:s') }}</td>
 								<td>{{ b.expires|date('Y-m-d H:i:s') }}</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
-		<hr />
-		<h2>Expired Blocks</h2>
-		{% if expiredBlocks is empty %}
-			<p>No expired blocks found.</p>
-		{% else %}
-			<div class="tableview">
-				<table class="data fullwidth">
-					<thead>
-						<tr>
-							<th>IP</th>
-							<th>Reason</th>
-							<th>Expired</ht>
-						</tr>
-					</thead>
-					<tbody>
-						{% for b in expiredBlocks %}
-							<tr>
-								<td>{{ b.ip }}</td>
-								<td>{{ b.reason }}</td>
-								<td>{{ b.expires|date('Y-m-d H:i:s') }}</td>
+								<td>{{ b.isActive ? 'Yes' : 'No' }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
