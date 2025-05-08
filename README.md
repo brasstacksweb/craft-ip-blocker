@@ -1,10 +1,10 @@
 # IP Blocker
 
-IP address blocker for Craft CMS applications to bock traffic from malicious sources. 
+IP address blocker for Craft CMS applications to bock traffic from malicious sources.
 
 ## Requirements
 
-This plugin requires Craft CMS 4.14.0 or later, and PHP 8.0.2 or later.
+This plugin requires Craft CMS 4.0 or later, and PHP 8.0.2 or later.
 
 ## Installation
 
