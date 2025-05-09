@@ -1,7 +1,6 @@
 *.DS_Store
 *.swp
 *.idea/*
-*.php-cs-fixer.cache
 *.log
 *Thumbs.db
 .env
