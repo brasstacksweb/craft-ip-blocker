@@ -37,7 +37,7 @@ class Blocker extends Component
         $pattern = str_replace(['\/', '/'], ['/', '\/'], $pattern);
 
         $message = $exception->getMessage();
-        $previous = $exception->getPrevious()->getMessage() ?? '';
+        $previous = $exception->getPrevious()?->getMessage() ?? '';
 
         return preg_match('/'.$pattern.'/', $message) || preg_match('/'.$pattern.'/', $previous);
     }
