@@ -16,15 +16,27 @@ class StatsController extends Controller
 
     public function actionAttempts(): Response
     {
+        $page = \Craft::$app->getRequest()->getQueryParam('page', 1);
+        $limit = \Craft::$app->getRequest()->getQueryParam('limit', 20);
+
+        $stats = IPBlocker::getInstance()->blocker->getAttemptStats($page, $limit);
+
         return $this->renderTemplate('craft-ip-blocker/_attempts', [
-            'attempts' => IPBlocker::getInstance()->blocker->getAttemptStats(),
+            'attempts' => $stats['attempts'],
+            'paginator' => $stats['paginator'],
         ]);
     }
 
     public function actionBlocks(): Response
     {
+        $page = \Craft::$app->getRequest()->getQueryParam('page', 1);
+        $limit = \Craft::$app->getRequest()->getQueryParam('limit', 20);
+
+        $stats = IPBlocker::getInstance()->blocker->getBlockStats($page, $limit);
+
         return $this->renderTemplate('craft-ip-blocker/_blocks', [
-            'blocks' => IPBlocker::getInstance()->blocker->getBlockStats(),
+            'blocks' => $stats['blocks'],
+            'paginator' => $stats['paginator'],
         ]);
     }
 }

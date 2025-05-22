@@ -1,6 +1,7 @@
 {# @var blocks \brasstacksweb\craftipblocker\models\BlockStats[] #}
+{# @var paginator \craft\db\Paginator #}
 
-{% extends 'craft-ip-blocker/_stats' %}
+{% extends 'craft-ip-blocker/_layouts/stats' %}
 
 {% set title = 'IP Blocker Stats - Blocks' %}
 
@@ -36,6 +37,13 @@
 					</tbody>
 				</table>
 			</div>
+
+			{% if paginator.totalResults > 1 %}
+				{% include 'craft-ip-blocker/_components/pagination' with {
+					baseUrl: url('craft-ip-blocker/blocks'),
+					paginator: paginator,
+				} only %}
+			{% endif %}
 		{% endif %}
 	</section>
 {% endblock %}
