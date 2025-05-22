@@ -27,7 +27,7 @@ use yii\web\HttpException;
  */
 class IPBlocker extends Plugin
 {
-    public string $schemaVersion = '1.0.1';
+    public string $schemaVersion = '1.1.0';
     public bool $hasCpSection = true;
     public bool $hasCpSettings = true;
 
