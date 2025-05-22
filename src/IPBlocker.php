@@ -27,7 +27,7 @@ use yii\web\HttpException;
  */
 class IPBlocker extends Plugin
 {
-    public string $schemaVersion = '1.0.1';
+    public string $schemaVersion = '1.1.0';
     public bool $hasCpSection = true;
     public bool $hasCpSettings = true;
 
@@ -57,7 +57,7 @@ class IPBlocker extends Plugin
                 UrlManager::class,
                 UrlManager::EVENT_REGISTER_CP_URL_RULES,
                 function (RegisterUrlRulesEvent $event) {
-                    $event->rules['craft-ip-blocker'] = 'craft-ip-blocker/stats/blocks';
+                    $event->rules['craft-ip-blocker/blocks'] = 'craft-ip-blocker/stats/blocks';
                     $event->rules['craft-ip-blocker/attempts'] = 'craft-ip-blocker/stats/attempts';
                 }
             );
@@ -98,6 +98,13 @@ class IPBlocker extends Plugin
         // after Craft is fully initialized, to avoid conflicts with other plugins/modules
         // \Craft::$app->onInit(function () {
         // });
+    }
+
+    public function getCpNavItem(): ?array
+    {
+        return array_merge(parent::getCpNavItem(), [
+            'url' => 'craft-ip-blocker/blocks',
+        ]);
     }
 
     protected function createSettingsModel(): ?Model

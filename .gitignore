@@ -3,6 +3,7 @@
 *.idea/*
 *.php-cs-fixer.cache
 *.log
+*.php-cs-fixer.cache
 *Thumbs.db
 .env
 /node_modules
