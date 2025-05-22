@@ -8,3 +8,6 @@
 
 ## 2.0.1
 - Updated Blocker service to use null-safe operator when accessing previous exception.
+
+## 2.1.0 - 2025-05-22
+- Added pagination to Failed Attempts and Blocks listing pages
