@@ -9,6 +9,7 @@ use brasstacksweb\craftipblocker\records\Attempt;
 use brasstacksweb\craftipblocker\records\Block;
 use craft\helpers\ConfigHelper;
 use craft\helpers\DateTimeHelper;
+use craft\db\Paginator;
 use yii\base\Component;
 use yii\db\Expression;
 use yii\web\ForbiddenHttpException;
@@ -70,9 +71,9 @@ class Blocker extends Component
         return true;
     }
 
-    public function getAttemptStats(): array
+    public function getAttemptStats(int $page = 1, int $limit = 20): array
     {
-        $attempts = Attempt::find()
+        $query = Attempt::find()
             ->select([
                 'pattern',
                 'ip',
@@ -81,15 +82,25 @@ class Blocker extends Component
                 'MAX(dateCreated) as lastAttempt',
             ])
             ->groupBy(['pattern', 'ip'])
-            ->asArray()
-            ->all();
+            ->asArray();
 
-        return array_map(fn ($a) => new AttemptStats($a), $attempts);
+        $paginator = new Paginator($query, [
+            'pageSize' => $limit,
+            'currentPage' => $page,
+        ]);
+        $attemps = $paginator->getPageResults();
+
+        return [
+            'attempts' => array_map(fn ($a) => new AttemptStats($a), $attemps),
+            'paginator' => $paginator,
+        ];
     }
 
-    public function getBlockStats(): array
+    public function getBlockStats(int $page = 1, int $limit = 20): array
     {
-        $blocks = Block::find()
+        $offset = ($page - 1) * $limit;
+
+        $query = Block::find()
             ->select([
                 'ip',
                 'reason',
@@ -99,10 +110,18 @@ class Blocker extends Component
                 'MAX(expires) > NOW() as isActive',
             ])
             ->groupBy(['ip', 'reason'])
-            ->asArray()
-            ->all();
+            ->asArray();
 
-        return array_map(fn ($b) => new BlockStats($b), $blocks);
+        $paginator = new Paginator($query, [
+            'pageSize' => $limit,
+            'currentPage' => $page,
+        ]);
+        $blocks = $paginator->getPageResults();
+
+        return [
+            'blocks' => array_map(fn ($b) => new BlockStats($b), $blocks),
+            'paginator' => $paginator,
+        ];
     }
 
     private function isBlocked(string $ip): bool

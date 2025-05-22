@@ -1,5 +1,5 @@
 {% set links = [
-	{ url: url('craft-ip-blocker'), label: 'Blocks' },
+	{ url: url('craft-ip-blocker/blocks'), label: 'Blocks' },
 	{ url: url('craft-ip-blocker/attempts'), label: 'Failed Attempts' },
 	{ url: url('settings/plugins/craft-ip-blocker'), label: 'Settings' },
 ] %}
@@ -17,7 +17,7 @@
 				<li>
 					<a
 						href="{{ l.url }}"
-						class="{% if l.url == craft.app.request.absoluteUrl %}sel{% endif %}">
+						class="{% if craft.app.request.pathInfo in l.url %}sel{% endif %}">
 						{{ l.label }}
 					</a>
 				</li>

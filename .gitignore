@@ -2,6 +2,7 @@
 *.swp
 *.idea/*
 *.log
+*.php-cs-fixer.cache
 *Thumbs.db
 .env
 /node_modules
