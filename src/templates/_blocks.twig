@@ -1,5 +1,7 @@
 {# @var blocks \brasstacksweb\craftipblocker\models\BlockStats[] #}
 {# @var paginator \craft\db\Paginator #}
+{# @var sort string #}
+{# @var direction string #}
 
 {% extends 'craft-ip-blocker/_layouts/stats' %}
 
@@ -11,39 +13,17 @@
 		{% if blocks is empty %}
 			<p>No blocks found. Add or update conditions in <a href="url('settings/plugins/craft-ip-blocker')" title="Settings">settings</a>.</p>
 		{% else %}
-			<div class="tableview">
-				<table class="data fullwidth">
-					<thead>
-						<tr>
-							<th>IP</th>
-							<th>Reason</th>
-							<th>Count</th>
-							<th>First Blocked</th>
-							<th>Expires</ht>
-							<th>Is Active</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for b in blocks %}
-							<tr>
-								<td>{{ b.ip }}</td>
-								<td>{{ b.reason }}</td>
-								<td>{{ b.count }}</td>
-								<td>{{ b.firstBlocked|date('Y-m-d H:i:s') }}</td>
-								<td>{{ b.expires|date('Y-m-d H:i:s') }}</td>
-								<td>{{ b.isActive ? 'Yes' : 'No' }}</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-
-			{% if paginator.totalResults > 1 %}
-				{% include 'craft-ip-blocker/_components/pagination' with {
-					baseUrl: url('craft-ip-blocker/blocks'),
-					paginator: paginator,
-				} only %}
-			{% endif %}
+			{% include 'craft-ip-blocker/_components/paged-table' with {
+				baseUrl: url('craft-ip-blocker/blocks'),
+				paginator: paginator,
+				columns: blocks|first|keys|map(attr => {
+					attribute: attr,
+					label: blocks|first.getAttributeLabel(attr),
+				}),
+				rows: blocks|map(b => b|keys|map(attr => b.getAttributes()[attr])),
+				sort: sort,
+				direction: direction,
+			} only %}
 		{% endif %}
 	</section>
 {% endblock %}
