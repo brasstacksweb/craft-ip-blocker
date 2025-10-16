@@ -7,13 +7,12 @@ use brasstacksweb\craftipblocker\models\BlockStats;
 use brasstacksweb\craftipblocker\models\Condition;
 use brasstacksweb\craftipblocker\records\Attempt;
 use brasstacksweb\craftipblocker\records\Block;
+use craft\db\Paginator;
 use craft\helpers\ConfigHelper;
 use craft\helpers\DateTimeHelper;
-use craft\db\Paginator;
 use yii\base\Component;
 use yii\db\Expression;
 use yii\web\ForbiddenHttpException;
-use yii\web\HttpException;
 
 class Blocker extends Component
 {
@@ -26,10 +25,14 @@ class Blocker extends Component
         $this->cleanup($ip, $conditions);
     }
 
-    public function matchException(Condition $condition, HttpException $exception): bool
+    public function matchException(Condition $condition, \Exception $exception): bool
     {
-        // TODO: Add exeption type check from condition in addition to pattern
         $pattern = $condition->pattern;
+
+        // Pattern is required (database constraint is notNull())
+        if (empty($pattern)) {
+            return false;
+        }
 
         // Trim slashes
         $pattern = trim($pattern, '/');

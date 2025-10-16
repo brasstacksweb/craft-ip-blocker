@@ -13,7 +13,6 @@ use craft\services\Gc;
 use craft\web\ErrorHandler;
 use craft\web\UrlManager;
 use yii\base\Event;
-use yii\web\HttpException;
 
 /**
  * IP Blocker plugin.
@@ -76,11 +75,9 @@ class IPBlocker extends Plugin
             ErrorHandler::class,
             ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION,
             function (ExceptionEvent $event) use ($ip, $conditions) {
-                if ($event->exception instanceof HttpException && count($conditions) > 0) {
-                    foreach ($conditions as $c) {
-                        if ($this->blocker->matchException($c, $event->exception)) {
-                            $this->blocker->recordFailedAttempt($ip, $c);
-                        }
+                foreach ($conditions as $c) {
+                    if ($this->blocker->matchException($c, $event->exception)) {
+                        $this->blocker->recordFailedAttempt($ip, $c);
                     }
                 }
             }
