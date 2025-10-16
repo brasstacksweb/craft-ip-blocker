@@ -26,7 +26,7 @@ use yii\base\Event;
  */
 class IPBlocker extends Plugin
 {
-    public string $schemaVersion = '2.2.0';
+    public string $schemaVersion = '2.3.0';
     public bool $hasCpSection = true;
     public bool $hasCpSettings = true;
 
