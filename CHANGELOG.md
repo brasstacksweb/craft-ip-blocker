@@ -13,3 +13,7 @@
 - Simplified exception handling to match against any Exception type instead of only HttpException
 - Added validation rules to Condition model to ensure required fields
 - Improved pattern matching logic with better error handling
+
+## 1.3.0 - 2025-10-16
+- Added sortable table columns for both attempts and blocks views
+- Changed default sort order to show newest records first
