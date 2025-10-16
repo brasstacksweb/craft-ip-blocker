@@ -1,5 +1,7 @@
 {# @var attempts \brasstacksweb\craftipblocker\models\AttemptStats[] #}
 {# @var paginator \craft\db\Paginator #}
+{# @var sort string #}
+{# @var direction string #}
 
 {% extends 'craft-ip-blocker/_layouts/stats' %}
 
@@ -11,37 +13,17 @@
 		{% if attempts is empty %}
 			<p>No attempts found. Add or update conditions in <a href="url('settings/plugins/craft-ip-blocker')" title="Settings">settings</a>.</p>
 		{% else %}
-			<div class="tableview">
-				<table class="data fullwidth">
-					<thead>
-						<tr>
-							<th>Pattern</th>
-							<th>IP</th>
-							<th>First Attempt</th>
-							<th>Last Attempt</th>
-							<th>Attempts</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for a in attempts %}
-							<tr>
-								<td>{{ a.pattern }}</td>
-								<td>{{ a.ip }}</td>
-								<td>{{ a.firstAttempt|date('Y-m-d H:i:s') }}</td>
-								<td>{{ a.lastAttempt|date('Y-m-d H:i:s') }}</td>
-								<td>{{ a.count }}</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-
-			{% if paginator.totalResults > 1 %}
-				{% include 'craft-ip-blocker/_components/pagination' with {
-					baseUrl: url('craft-ip-blocker/attempts'),
-					paginator: paginator,
-				} only %}
-			{% endif %}
+			{% include 'craft-ip-blocker/_components/paged-table' with {
+				baseUrl: url('craft-ip-blocker/attempts'),
+				paginator: paginator,
+				columns: attempts|first|keys|map(attr => {
+					attribute: attr,
+					label: attempts|first.getAttributeLabel(attr),
+				}),
+				rows: attempts|map(a => a|keys|map(attr => a.getAttributes()[attr])),
+				sort: sort,
+				direction: direction,
+			} only %}
 		{% endif %}
 	</section>
 {% endblock %}

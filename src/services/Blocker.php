@@ -74,8 +74,20 @@ class Blocker extends Component
         return true;
     }
 
-    public function getAttemptStats(int $page = 1, int $limit = 20): array
+    public function getAttemptStats(int $page = 1, int $limit = 20, string $sort = 'lastAttempt', string $direction = 'desc'): array
     {
+        $sort = [
+            'firstAttempt' => 'MIN(dateCreated)',
+            'lastAttempt' => 'MAX(dateCreated)',
+            'pattern' => 'pattern',
+            'ip' => 'ip',
+            'count' => 'COUNT(*)',
+        ][$sort] ?? 'MAX(dateCreated)';
+        $direction = [
+            'asc' => 'ASC',
+            'desc' => 'DESC',
+        ][$direction] ?? 'DESC';
+
         $query = Attempt::find()
             ->select([
                 'pattern',
@@ -85,6 +97,7 @@ class Blocker extends Component
                 'MAX(dateCreated) as lastAttempt',
             ])
             ->groupBy(['pattern', 'ip'])
+            ->orderBy($sort.' '.$direction)
             ->asArray();
 
         $paginator = new Paginator($query, [
@@ -99,9 +112,19 @@ class Blocker extends Component
         ];
     }
 
-    public function getBlockStats(int $page = 1, int $limit = 20): array
+    public function getBlockStats(int $page = 1, int $limit = 20, string $sort = 'expires', string $direction = 'desc'): array
     {
-        $offset = ($page - 1) * $limit;
+        $sorts = [
+            'firstBlocked' => 'MIN(dateCreated)',
+            'expires' => 'MAX(expires)',
+            'ip' => 'ip',
+            'reason' => 'reason',
+            'count' => 'COUNT(*)',
+        ][$sort] ?? 'MAX(expires)';
+        $direction = [
+            'asc' => 'ASC',
+            'desc' => 'DESC',
+        ][$direction] ?? 'DESC';
 
         $query = Block::find()
             ->select([
@@ -113,6 +136,7 @@ class Blocker extends Component
                 'MAX(expires) > NOW() as isActive',
             ])
             ->groupBy(['ip', 'reason'])
+            ->orderBy($sort.' '.$direction)
             ->asArray();
 
         $paginator = new Paginator($query, [

@@ -18,12 +18,16 @@ class StatsController extends Controller
     {
         $page = \Craft::$app->getRequest()->getQueryParam('page', 1);
         $limit = \Craft::$app->getRequest()->getQueryParam('limit', 20);
+        $sort = \Craft::$app->getRequest()->getQueryParam('sort', 'lastAttempt');
+        $direction = \Craft::$app->getRequest()->getQueryParam('direction', 'desc');
 
-        $stats = IPBlocker::getInstance()->blocker->getAttemptStats($page, $limit);
+        $stats = IPBlocker::getInstance()->blocker->getAttemptStats($page, $limit, $sort, $direction);
 
         return $this->renderTemplate('craft-ip-blocker/_attempts', [
             'attempts' => $stats['attempts'],
             'paginator' => $stats['paginator'],
+            'sort' => $sort,
+            'direction' => $direction,
         ]);
     }
 
@@ -31,12 +35,16 @@ class StatsController extends Controller
     {
         $page = \Craft::$app->getRequest()->getQueryParam('page', 1);
         $limit = \Craft::$app->getRequest()->getQueryParam('limit', 20);
+        $sort = \Craft::$app->getRequest()->getQueryParam('sort', 'expires');
+        $direction = \Craft::$app->getRequest()->getQueryParam('direction', 'desc');
 
-        $stats = IPBlocker::getInstance()->blocker->getBlockStats($page, $limit);
+        $stats = IPBlocker::getInstance()->blocker->getBlockStats($page, $limit, $sort, $direction);
 
         return $this->renderTemplate('craft-ip-blocker/_blocks', [
             'blocks' => $stats['blocks'],
             'paginator' => $stats['paginator'],
+            'sort' => $sort,
+            'direction' => $direction,
         ]);
     }
 }
