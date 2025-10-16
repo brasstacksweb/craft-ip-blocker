@@ -6,11 +6,19 @@ use craft\base\Model;
 
 class Condition extends Model
 {
-    // TODO: Add exception type?
     public ?string $pattern = null;
     public int $maxAttempts = 5;
     public int $detectionWindow = 300; // 5 minutes
     public int $blockTime = 3600; // 1 hour
+
+    public function rules(): array
+    {
+        return [
+            [['pattern', 'maxAttempts', 'detectionWindow', 'blockTime'], 'required'],
+            [['pattern'], 'string'],
+            [['maxAttempts', 'detectionWindow', 'blockTime'], 'integer', 'min' => 1],
+        ];
+    }
 
     public function attributeHints(): array
     {
